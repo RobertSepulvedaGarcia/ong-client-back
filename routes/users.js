@@ -6,14 +6,9 @@ const user = require('../controllers/User.js')
 /* Modules */
 const { body, validationResult } = require('express-validator');
 const bcrypt = require("bcryptjs");
-
-
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  user.read()
-  .then(r => res.send(r))
-  .catch(next);
-});
+const { getAllUsers } = require('../repositories/userRepository');
+const authMiddleware = require('../middlewares/auth');
+const authAdminMiddleware = require('../middlewares/authAdmin');
 
 /* POST register user */
 router.post('/auth/register', body('email').isEmail(), body('password').isLength({ min: 6 }), function(req, res, next){
@@ -45,6 +40,11 @@ function validate (errors){
     return res.status(400).json({ errors: errors.array() });
   }
 }
+
+router.get('/', authMiddleware, authAdminMiddleware, async (req, res, next) => {
+  const userList = await getAllUsers();
+  return res.status(200).json(userList);
+});
 
 module.exports = router;
 

@@ -4,4 +4,11 @@ function getUserByEmail(email) {
   return User.findOne({ where: { email } });
 }
 
-module.exports = getUserByEmail;
+function getAllUsers() {
+  return User.findAll();
+}
+
+module.exports = {
+  getUserByEmail: getUserByEmail,
+  getAllUsers: getAllUsers
+}

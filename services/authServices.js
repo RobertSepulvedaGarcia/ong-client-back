@@ -1,4 +1,4 @@
-const getUserByEmail = require('../repositories/userRepository');
+const { getUserByEmail } = require('../repositories/userRepository');
 const bcrypt = require('bcrypt');
 
 async function loginUser(email, password) {

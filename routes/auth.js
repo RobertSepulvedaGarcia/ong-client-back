@@ -34,7 +34,7 @@ router.post(
       return res.status(409).json({ error: 'Incorrect username or password' });
     }
     if (result.error) {
-      return next(error);
+      return next(result.error);
     }
 
     const token = jwtSign({
