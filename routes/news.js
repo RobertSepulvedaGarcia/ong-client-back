@@ -4,12 +4,21 @@ const { body, validationResult } = require('express-validator');
 
 const { createNewsEntry } = require('../repositories/entriesRepository');
 
+const { findEntryById } = require('../repositories/entriesRepository');
+
 //GET the news from the entries model
 router.get('', (req, res) => {
   entries
     .find()
     .then((response) => res.status(200).send(response))
     .catch((err) => console.log(err));
+});
+
+router.get('/:oid', async function (req, res) {
+  const requestedID = req.params.oid;
+  const requestedEntry = await findEntryById(requestedID);
+
+  return res.status(200).json({ ok: true, entry: requestedEntry });
 });
 
 router.post(
