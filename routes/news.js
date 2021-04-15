@@ -6,6 +6,8 @@ const { createNewsEntry } = require('../repositories/entriesRepository');
 
 const { findEntryById } = require('../repositories/entriesRepository');
 
+const entries = require('../controller/entries')
+
 //GET the news from the entries model
 router.get('', (req, res) => {
   entries

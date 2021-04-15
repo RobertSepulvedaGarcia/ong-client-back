@@ -13,7 +13,6 @@ const usersRouter = require('./routes/users');
 const authRouter = require('./routes/auth');
 const newsRouter = require('./routes/news');
 const organizationRouter = require('./routes/organization');
-const newsRouter = require('./routes/news');
 
 const app = express();
 app.use(cors());

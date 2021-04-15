@@ -7,7 +7,6 @@ router.get('/:id/public', async(req, res) => {
     try {
         const organizations = await organization
             .find(req.params.id)
-            .then((r) => res.status(200).send(r));
 
         return res.status(200).json({
             success: true,
