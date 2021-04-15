@@ -4,6 +4,8 @@ const { body, validationResult } = require('express-validator');
 
 const { createNewsEntry } = require('../repositories/entriesRepository');
 
+const { deleteNew } = require('../controller/news');
+
 const { findEntryById } = require('../repositories/entriesRepository');
 
 const entries = require('../controller/entries')
@@ -43,5 +45,7 @@ router.post(
     return res.status(201).json({ ok: true, msg: 'Created successfully' });
   }
 );
+
+router.delete('/:id', deleteNew);
 
 module.exports = router;
