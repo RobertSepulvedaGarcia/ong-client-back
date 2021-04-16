@@ -1,4 +1,4 @@
-const New = require('../models/news');
+const New = require('../models/entries');
 
 const deleteNew = async (req, res) => {
   const existsNew = await New.findByPk(req.params.id);
