@@ -36,12 +36,12 @@ router.post(
     if (result.error) {
       return next(result.error);
     }
-
     const token = jwtSign({
-      id: result.id
+      id: result.id,
+      roleId: result.roleId
     });
 
-    return res.status(200).json({ result });
+    return res.status(200).json({ token });
   }
 );
 
