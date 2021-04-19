@@ -33,7 +33,6 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/news', newsRouter);
 app.use('/organizations', organizationRouter);
-app.use('/news', newsRouter);
 app.use('/contacts', contactRouter);
 
 // catch 404 and forward to error handler

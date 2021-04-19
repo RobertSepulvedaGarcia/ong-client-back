@@ -2,13 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
 
-const { createNewsEntry } = require('../repositories/entriesRepository');
-
 const { deleteNew } = require('../controller/news');
 
-const { findEntryById } = require('../repositories/entriesRepository');
-
-const entries = require('../controller/entries')
+const entries = require('../controller/entries');
 
 //GET the news from the entries model
 router.get('', (req, res) => {
@@ -20,9 +16,24 @@ router.get('', (req, res) => {
 
 router.get('/:oid', async function (req, res) {
   const requestedID = req.params.oid;
-  const requestedEntry = await findEntryById(requestedID);
+  const requestedEntry = await entries.findEntryById(requestedID);
 
   return res.status(200).json({ ok: true, entry: requestedEntry });
+});
+
+router.put('/:oid', async function (req, res) {
+  const requestedID = req.params.oid;
+  let requestedEntry = await entries.findEntryById(requestedID);
+
+  if (requestedEntry !== null) {
+    const data = req.body;
+    await entries.updateEntryById(requestedID, data);
+    requestedEntry = await entries.findEntryById(requestedID);
+
+    return res.status(200).json({ ok: true, entry: requestedEntry });
+  }
+
+  return res.status(404).json({ ok: false, error: 'This ID does not exist' });
 });
 
 router.post(
@@ -40,7 +51,7 @@ router.post(
     }
 
     const data = req.body;
-    await createNewsEntry(data);
+    await entries.createNewsEntry(data);
 
     return res.status(201).json({ ok: true, msg: 'Created successfully' });
   }
