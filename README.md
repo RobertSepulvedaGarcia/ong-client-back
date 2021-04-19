@@ -1,5 +1,22 @@
 # Server Base - Proyecto ONG
 
+## Api Documentation
+
+Thanks to Postman , we where able to publish An API documentation that will help you to undertand what each EndPoint returns
+
+[API Documentation](https://documenter.getpostman.com/view/12145996/TzJpgeK1)
+
+In order to test the API yourself, we're glad to leave you a guide that will walk you through each step of the process
+
+### Must Have
+
+1. [Postman](https://www.postman.com/downloads/)
+
+### How to use
+
+1. On our [Doc site](https://documenter.getpostman.com/view/12145996/TzJpgeK1) you will find on the top right cornert a button that says "Run in Postman", click on it and it will download you a Postman collection that holds all the EndPoints that you can find in the documentation.
+
+2. Set Up an Environment Variable inside postman called "URL" , that will be use as the base URL for each EndPoint call , if you don't know how to set it up here is guide to [set up a postman environment variable](https://developers.onelogin.com/api-docs/1/getting-started/postman-collections) that will walk you through each step
 
 ## Envinroment setup
 
