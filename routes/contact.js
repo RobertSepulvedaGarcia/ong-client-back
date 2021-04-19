@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
-const { createContact } = require('../controller/contact')
+const { createContact, getAllContacts } = require('../controller/contact')
+const authAdminMiddleware = require('../middlewares/authAdmin')
+const authMiddleware = require('../middlewares/auth')
 router.post('/',
     body('email').notEmpty().normalizeEmail(),
     body('name').notEmpty().trim()
@@ -19,4 +21,14 @@ router.post('/',
             next(e.message)
         }
     });
+router.get('/', authMiddleware, authAdminMiddleware, async (req, res, next) => {
+    try {
+        const contacts = await getAllContacts()
+        res.status(200).json(contacts)
+
+    } catch (e) {
+        next(e.message)
+    }
+
+})
 module.exports = router
