@@ -1,7 +1,7 @@
-const New = require('../models/entries');
+const { Entries } = require('../models/index.js');
 
 const deleteNew = async (req, res) => {
-  const existsNew = await New.findByPk(req.params.id);
+  const existsNew = await Entries.findByPk(req.params.id);
 
   if (!existsNew) {
     return res.json({
@@ -9,7 +9,7 @@ const deleteNew = async (req, res) => {
     });
   }
   try {
-    await New.destroy({
+    await Entries.destroy({
       where: {
         id: req.params.id,
       },
@@ -27,5 +27,5 @@ const deleteNew = async (req, res) => {
 };
 
 module.exports = {
-  deleteNew,
+  deleteNew
 };
