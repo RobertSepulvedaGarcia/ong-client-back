@@ -5,6 +5,7 @@ const {
 } = require("../config/sendgrid");
 sgMail.setApiKey(SENDGRID_API_KEY);
 
+
 const sendMail = (emailAddressTo, subject, body) => {
   const msg = {
     to: emailAddressTo,
@@ -22,6 +23,13 @@ const sendMail = (emailAddressTo, subject, body) => {
     });
 };
 
+
+const createEmail = (emailAddressTo, subject, title, message)=>{
+  let body = `<div><u><b><h1>${title}</h1></b></u><br><h4>${message}</h4></div>`
+  sendMail(emailAddressTo,subject,body)
+}
+
+
 module.exports = {
-  sendMail,
+  sendMail, createEmail
 };
