@@ -43,3 +43,29 @@ npx sequelize-cli db:seed:all
 ``` bash
 npm start
 ```
+
+# Users test
+
+Gustavo@test.com
+Jack@test.com
+Peter@test.com
+Fabricio@test.com
+Victoria@test.com
+Celeste@test.com
+Rick@test.com
+Sergio@test.com
+Esteban@test.com
+David@test.com
+Victor@test.com
+Luis@test.com
+Homer@test.com
+Ignacion@test.com
+Antonela@test.com
+Virginia@test.com
+Selene@test.com
+Clarisa@test.com
+Genaro@test.com
+Hector@test.com
+
+Password
+123456
