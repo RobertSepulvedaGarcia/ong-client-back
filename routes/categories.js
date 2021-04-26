@@ -5,69 +5,82 @@ const { body, validationResult, param } = require('express-validator');
 const authAdminMiddleware = require('../middlewares/authAdmin');
 const authMiddleware = require('../middlewares/auth');
 
-router.delete('/:id',
-    authMiddleware, 
+router.get('', (req, res) => {
+    categories
+        .find()
+        .then((response) => res.status(200).send(response))
+        .catch((err) => console.log(err));
+});
+
+router.delete(
+    '/:id',
+    authMiddleware,
     authAdminMiddleware,
     param('id').notEmpty().isInt(),
-    async (req, res, next) => {
+    async(req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const {id} = req.params;
+        const { id } = req.params;
 
         try {
             let checkCategory = await categories.getCategoryById(id);
 
-            if(checkCategory){
+            if (checkCategory) {
                 await categories.deleteCategory(id);
 
                 return res.status(200).json({
                     message: `Category with id: ${id} deleted successfully`,
                 });
             }
-        
-            return res.status(400).json({ error: `Category with id: ${id} doesn't exists` });
+
+            return res
+                .status(400)
+                .json({ error: `Category with id: ${id} doesn't exists` });
         } catch (e) {
             next(e.message);
         }
-});
+    }
+);
 
-router.put('/:id', 
+router.put(
+    '/:id',
     authMiddleware,
     authAdminMiddleware,
-    param('id').notEmpty().isInt(), 
-    body('name').notEmpty().isString().trim(), 
-    async (req, res, next) => {
+    param('id').notEmpty().isInt(),
+    body('name').notEmpty().isString().trim(),
+    async(req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const {id} = req.params;
-        const {name, description} = req.body;
+        const { id } = req.params;
+        const { name, description } = req.body;
 
         try {
             let checkCategory = await categories.getCategoryById(id);
-            if(!checkCategory) return res.status(400).json({
-                error: `Category with id: ${id} does not exists`
-            });
+            if (!checkCategory)
+                return res.status(400).json({
+                    error: `Category with id: ${id} does not exists`,
+                });
 
             await categories.updateCategory(id, {
-                name, 
+                name,
                 description,
                 // updatedAt with current date in mysql format
-                updatedAt: new Date().toISOString().slice(0, 19).replace('T', ' ')
+                updatedAt: new Date().toISOString().slice(0, 19).replace('T', ' '),
             });
 
             return res.status(200).json({
                 message: `Category with id: ${id} updated successfully`,
             });
-            
         } catch (e) {
             next(e.message);
         }
-});
+    }
+);
 
 module.exports = router;
