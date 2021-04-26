@@ -12,7 +12,10 @@ module.exports = {
                "image",
                "phone",
                "address",
-               "welcomeText"                
+               "welcomeText",
+               "facebook",
+               "instagram",
+               "linkedin"
             ]
         }).then(organization =>{
             return organization
