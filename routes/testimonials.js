@@ -5,8 +5,16 @@ const { body, validationResult } = require('express-validator');
 const {
   updateTestimonial,
   findOneTestimonial,
-  createTestimonials
+  createTestimonials,
+  getTestimonials,
+  deleteTestimonial
 } = require('../controller/testimonials');
+
+//GET request to find and show all testimonials  
+router.get('/', async (req, res, next) => {
+  const testimonialList = await getTestimonials();
+  return res.status(200).json(testimonialList);
+});
 
 //PUT request to update the testimony
 router.put(
@@ -60,6 +68,10 @@ router.post(
       return res.status(400).json({ ok: false, errors: errors.array() });
     }
 
+  //DELETE request to delete a testimonial 
+  router.delete('/:id', deleteTestimonial);
+
+  module.exports = router;
     const data = req.body;
     await createTestimonials(data);
 

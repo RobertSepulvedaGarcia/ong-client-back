@@ -16,7 +16,38 @@ function createTestimonials(data) {
   return Testimonials.upsert(data);
 }
 
-module.exports = { updateTestimonial, findOneTestimonial, createTestimonials};
+function getTestimonials(){
+  return Testimonials.findAll();
+}
+
+const deleteTestimonial = async (req, res) => {
+  const existsTestimonial = await Testimonials.findByPk(req.params.id);
+
+  if (!existsTestimonial) {
+    return res.json({
+      msg: 'invalid testimonial id',
+    });
+  }
+  try {
+    await Testimonials.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    return res.json({
+      ok: true,
+      msg: 'Testimonial deleted successfully',
+    });
+  } catch (error) {
+    return res.json({
+      msg: 'Error try again',
+    });
+  }
+};
+
+
+module.exports = { updateTestimonial, findOneTestimonial, createTestimonials, getTestimonials, deleteTestimonial};
 
 
 
