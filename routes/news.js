@@ -1,10 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { body, validationResult } = require('express-validator');
-
+const authMiddleware = require('../middlewares/auth')
+const authAdminMiddleware = require('../middlewares/authAdmin')
 const { deleteNew } = require('../controller/news');
-
 const entries = require('../controller/entries');
+
 
 //GET the news from the entries model
 router.get('', (req, res) => {
@@ -38,22 +39,25 @@ router.put('/:oid', async function (req, res) {
 
 router.post(
   '/',
+  authMiddleware,
+  authAdminMiddleware,
   body('name').isString().notEmpty().trim().escape(),
   body('content').isString().notEmpty().trim().escape(),
   body('image').isString().notEmpty(),
   body('categoryId').isInt().notEmpty(),
-
-  async function (req, res) {
+  async function (req, res, next) {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
       return res.status(400).json({ ok: false, errors: errors.array() });
     }
-
     const data = req.body;
-    await entries.createNewsEntry(data);
-
-    return res.status(201).json({ ok: true, msg: 'Created successfully' });
+    try {
+      await entries.createNewsEntry(data);
+      return res.status(201).json({ ok: true, msg: 'Created successfully' });
+    } catch (e) {
+      next(e)
+    }
   }
 );
 
