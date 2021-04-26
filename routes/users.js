@@ -10,12 +10,12 @@ const { getAllUsers } = require('../repositories/userRepository');
 const authMiddleware = require('../middlewares/auth');
 const authAdminMiddleware = require('../middlewares/authAdmin');
 
-router.get('/', authMiddleware, authAdminMiddleware, async (req, res, next) => {
+ router.get('/', authMiddleware, authAdminMiddleware, async (req, res, next) => {
   const userList = await getAllUsers();
   return res.status(200).json(userList);
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authMiddleware, authAdminMiddleware, async (req, res) => {
   let { id } = req.params;
 
   try {
