@@ -2,6 +2,14 @@ const sequelize = require('sequelize');
 const {Categories} = require('../models');
 
 module.exports = {
+    updateCategory: (id, data) => {
+        return Categories
+            .update(data, {
+                where: {id}
+            })
+            .then(res => res)
+    },
+    
     deleteCategory: (id) => {
         return Categories.destroy({
             where: {

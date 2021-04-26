@@ -29,7 +29,42 @@ router.delete('/:id',
             }
         
             return res.status(400).json({ error: `Category with id: ${id} doesn't exists` });
+        } catch (e) {
+            next(e.message);
+        }
+});
 
+router.put('/:id', 
+    authMiddleware,
+    authAdminMiddleware,
+    param('id').notEmpty().isInt(), 
+    body('name').notEmpty().isString().trim(), 
+    async (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const {id} = req.params;
+        const {name, description} = req.body;
+
+        try {
+            let checkCategory = await categories.getCategoryById(id);
+            if(!checkCategory) return res.status(400).json({
+                error: `Category with id: ${id} does not exists`
+            });
+
+            await categories.updateCategory(id, {
+                name, 
+                description,
+                // updatedAt with current date in mysql format
+                updatedAt: new Date().toISOString().slice(0, 19).replace('T', ' ')
+            });
+
+            return res.status(200).json({
+                message: `Category with id: ${id} updated successfully`,
+            });
+            
         } catch (e) {
             next(e.message);
         }
