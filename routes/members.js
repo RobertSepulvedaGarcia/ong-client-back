@@ -4,6 +4,7 @@ const { body, validationResult } = require('express-validator');
 const {
   getAllMembemres,
   createMember,
+  updateMember,
   deleteMember,
 } = require('../controller/members');
 
@@ -35,6 +36,7 @@ router.post(
     }
   }
 );
+router.put('/members/:id', updateMember);
 router.delete('/members/:id', deleteMember);
 
 module.exports = router;
