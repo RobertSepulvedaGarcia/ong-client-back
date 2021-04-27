@@ -35,15 +35,12 @@ router.delete(
                     message: `Category with id: ${id} deleted successfully`,
                 });
             }
-
-            return res
-                .status(400)
-                .json({ error: `Category with id: ${id} doesn't exists` });
+        
+            return res.status(400).json({ error: `Category with id: ${id} doesn't exists` });
         } catch (e) {
             next(e.message);
         }
-    }
-);
+});
 
 router.put(
     '/:id',
@@ -82,5 +79,25 @@ router.put(
         }
     }
 );
+
+router.post('/',
+    authMiddleware,
+    authAdminMiddleware,
+    body('name').notEmpty().isString().trim(), 
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+
+        const {name, description} = req.body;
+
+        categories.createCategory(name, description)
+            .then(r => res.status(200).json({
+                message: "Category created successfully",
+                newCategory: r
+            }))
+            .catch(err => next(err.message));
+});
 
 module.exports = router;

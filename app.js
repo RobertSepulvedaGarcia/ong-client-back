@@ -41,7 +41,7 @@ app.use('/testimonials', testimonialsRouter);
 app.use('/activities', activitiesRouter);
 app.use('/contacts', contactRouter);
 app.use('/categories', categoriesRouter);
-app.use('/members', membersRouter);
+app.use('/members', membersRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
