@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "cross-env NODE_ENV=test mocha"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.4.2",
@@ -25,6 +26,10 @@
     "sequelize": "^6.3.5"
   },
   "devDependencies": {
-    "sequelize-cli": "^6.2.0"
+    "chai": "^4.3.4",
+    "cross-env": "^7.0.3",
+    "mocha": "^8.3.2",
+    "sequelize-cli": "^6.2.0",
+    "supertest": "^6.1.3"
   }
 }
