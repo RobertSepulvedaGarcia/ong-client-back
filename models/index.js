@@ -25,13 +25,13 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+
 // disable log sequelize if test env
-if(process.env.NODE_ENV === 'test'){
+if (process.env.NODE_ENV === 'test') {
   sequelize.options.logging = false;
 }
 
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
 module.exports = db;
