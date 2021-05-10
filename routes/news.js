@@ -18,7 +18,11 @@ router.get('/:oid', async function (req, res) {
   const requestedID = req.params.oid;
   const requestedEntry = await news.findNewById(requestedID);
 
-  return res.status(200).json({ ok: true, entry: requestedEntry });
+  if (requestedEntry !== null){
+    return res.status(200).json({ ok: true, entry: requestedEntry });
+  }
+ 
+  return res.status(404).json({ ok: false, error: 'This ID does not exist' });
 });
 
 router.put('/:oid', async function (req, res) {
@@ -32,8 +36,8 @@ router.put('/:oid', async function (req, res) {
 
     return res.status(200).json({ ok: true, entry: requestedEntry });
   }
-
   return res.status(404).json({ ok: false, error: 'This ID does not exist' });
+ 
 });
 
 router.post(
@@ -60,6 +64,6 @@ router.post(
   }
 );
 
-router.delete('/:id', news.deleteNew);
+router.delete('/:id', news.deleteNew); 
 
 module.exports = router;
